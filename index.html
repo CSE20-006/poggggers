@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flip Book</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Spline+Sans:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('back5.png'); /* Add your image URL here */
+  background-size: cover; /* Ensures the image covers the entire viewport */
+  background-position: center; /* Centers the background image */
+  background-attachment: fixed; /* Keeps the background fixed while scrolling */
+      }
+      .center {
+        width: fit-content;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 360px;
+      }
+      .book {
+        width: 400px;
+        height: 300px;
+        position: relative;
+      }
+      .pages {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      .page {
+        width: 480px;
+        height: 370px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 7mm;
+        margin: 0 6px;
+        transform-style: preserve-3d;
+        transform-origin: left;
+        transition: 0.25s;
+        box-shadow: 1px 2px 0 0 rgba(0, 0, 0, 0.15),
+          1px 3px 1px 0 rgba(0, 0, 0, 0.1);
+      }
+      .page-side {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 20px 30px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        font-family: "Playfair Display";
+        border-radius: 7mm;
+        position: absolute;
+        top: 0;
+        left: 0;
+        backface-visibility: hidden;
+      }
+      .page-head {
+        width: 100%;
+        margin-bottom: -30px;
+      }
+      .page-title {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 40px;
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+      .page-subtitle {
+        font-size: 12px;
+        font-weight: 300;
+      }
+      .page-content {
+        flex-grow: 0.6; 
+        font-size: 18px;
+        display: flex;
+        align-items: flex-end;
+        font-family: "Dancing Script";
+        
+      }
+
+      .page-contents {
+        flex-grow: 0.1; 
+        font-size: 18px;
+        display: flex;
+        align-items: flex-end;
+        font-family: "Dancing Script";
+        
+      }
+      .page-footer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+      .pg-no {
+        width: 14px;
+        padding: 0 15px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        color: rgb(40, 40, 40);
+        background: white;
+        border-radius: 3mm;
+      }
+      .front {
+        background:#9966CC;
+        color: white;
+        padding-left: 40px;
+      }
+      .back {
+        background: #502380;
+        color: white;
+        padding-right: 40px;
+        transform: rotateY(180deg);
+      }
+      .beads {
+        position: absolute;
+        top: 0;
+        left: -12px;
+        height: 270px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-direction: column;
+        z-index: 9999;
+      }
+      .bead {
+        width: 36px;
+        height: 12px;
+        background: white;
+        border-radius: 5mm;
+        z-index: 9999;
+        box-shadow: inset 1px 2px 0 0 rgba(0, 0, 0, 0.15),
+          inset 1px 3px 1px 0 rgba(0, 0, 0, 0.1);
+      }
+      #playImage {
+        cursor: pointer;
+        width: 50px; /* small size */
+        height: auto;
+        position: absolute;
+        z-index: 9999; /* Above everything else */
+        border-radius: 10px;
+        transition: left 0.1s ease, top 0.1s ease; /* Smooth movement */
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="backgroundAudio" loop>
+      <source src="Ed Sheeran - Thinking Out Loud (Official Music Video) [lp-EO5I60KA].mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
+
+    <img id="playImage" src="bear2.png" alt="Click to Play Music" onclick="playAudio()" onmousedown="startDrag(event)" />
+    <div class="center">
+      <div class="book">
+        <div class="pages">
+          <div class="beads">
+            <div class="bead"></div>
+            <div class="bead"></div>
+            <div class="bead"></div>
+            <div class="bead"></div>
+          </div>
+
+          <div class="page active">
+            <div class="page-side front">
+              <div class="page-head">
+                <div class="page-title">
+                  To Pogo
+                  <span class="material-icons-outlined">favorite</span>
+                </div>
+                <div class="page-subtitle">from papa bean</div>
+              </div>
+              <div class="page-content">
+                
+                Hihi (Please note i am coming to you as a man smitten in love, missing his love).
+                 I am broadcasting live today with all the heavens, earths and mosquitoes in our presence to remember the day you first cried after the 
+                 doctor smacked your ass, go tlama ola. Approximately 8766 days ago, God decided to bring the most kind hearted and beautiful soul
+                  down to this spinning rock we call home, and for that everyone she was to ever come across would forever be grateful.
+              </div>
+              <div class="page-footer">
+                
+                
+              </div>
+            </div>
+
+            <div class="page-side back">
+             
+              <div class="page-contents">
+                From the endless love you have for your family, to the genuine connections you have for your friends,
+                 and the ear always willing to listen to the stories of whoever you come across, they are all lucky to have such an 
+                 amazing human being in their life. I may be biased but i do crown myself as the luckiest of the bunch.
+              </div>
+              <div class="page-footer">
+                
+                
+              </div>
+            </div>
+          </div>
+          <div class="page">
+            <div class="page-side front">
+             
+              <div class="page-contents">
+                Out of that 8766, you've given me the honor of calling you mine for 1021 days. 
+                We embraced each other through your 21s, shared a lot of laughs cursing through your 22s and i smile 
+                just thinking about the debilitating shits we're gonna have in your 23s. For giving me some of the best years of my life,
+                 this acts as a small token of my love and appreciate to you maman cherie.
+              </div>
+              <div class="page-footer">
+                
+                
+              </div>
+            </div>
+            <div class="page-side back">
+              <div class="page-contents">
+                Walking into 23, I am praying for all the lord's blessing to basically drown and overflow in every
+                 aspect of your life from this point forward. I have already talked to the stars in my charka hun ways and 2025 
+                 is gonna be a YEAR(I know crazy). Keep being the same woman feel in love with, the same woman i am in love with
+                  and the woman i am going to travel the world and experience life with. I lovveeeeeeeeeeeeeeeeeeeeeeeeeeeee, love love,
+                   love love love (sex) you...
+
+              </div>
+              <div class="page-footer">
+                
+               
+              </div>
+            </div>
+          </div>
+          <div class="page">
+            <div class="page-side front">
+              TO THE MOON AND NEVER BACK <br>
+                  <span class="material-icons-outlined">dark_mode</span>
+              <div class="page-footer">
+                
+                
+              </div>
+            </div>
+            <div class="page-side back">
+              
+                  TO THE MOON AND NEVER BACK <br>
+                  <span class="material-icons-outlined">dark_mode</span>
+                
+            
+              <div class="page-footer">
+                
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <script>
+      function setIndex() {
+        let pages = document.querySelectorAll(".page");
+        for (var i = 0; i < pages.length; i++) {
+          pages[i].style.zIndex = pages.length - i;
+        }
+      }
+    
+      setIndex();
+    
+      function previous() {
+        let active = document.querySelector(".active");
+        let prevSib = active.previousElementSibling;
+        if (prevSib && prevSib.className === "beads") return;
+        if (!prevSib) return;
+        active.className = "page";
+        prevSib.className = "page active";
+        setIndex();
+        prevSib.style.transform = "rotateY(0deg)";
+        let prevSib2 = prevSib.previousElementSibling;
+        if (prevSib2 && prevSib2.className == "page") {
+          prevSib2.style.zIndex = "9998";
+        }
+      }
+    
+      function playAudio() {
+        var audio = document.getElementById('backgroundAudio');
+        if (audio.paused) {
+          audio.play(); // Play the audio when the image is clicked
+          startFloating(); // Start the floating when the audio plays
+        } else {
+          audio.pause(); // If the audio is already playing, pause it
+          stopFloating(); // Stop the floating when the audio pauses
+        }
+      }
+    
+      const image = document.getElementById('playImage');
+      let isFloating = false;
+      let currentX = 0;
+      let currentY = window.innerHeight - image.height;
+      let speed = 1;
+      let velocityX = (Math.random() - 0.5) * speed;
+      let velocityY = (Math.random() - 0.5) * speed;
+    
+      image.style.left = currentX + 'px';
+      image.style.top = currentY + 'px';
+    
+      function moveImage() {
+        if (isFloating) {
+          velocityX += (Math.random() - 0.5) * 0.05;
+          velocityY += (Math.random() - 0.5) * 0.05;
+    
+          currentX += velocityX;
+          currentY += velocityY;
+    
+          const maxX = window.innerWidth - image.width;
+          const maxY = window.innerHeight - image.height;
+    
+          if (currentX < 0 || currentX > maxX) velocityX = -velocityX;
+          if (currentY < 0 || currentY > maxY) velocityY = -velocityY;
+    
+          image.style.left = currentX + 'px';
+          image.style.top = currentY + 'px';
+    
+          requestAnimationFrame(moveImage);
+        }
+      }
+    
+      function startFloating() {
+        isFloating = true;
+        moveImage();
+      }
+    
+      function stopFloating() {
+        isFloating = false;
+      }
+    
+      function next() {
+        let active = document.querySelector(".active");
+        let nextSib = active.nextElementSibling;
+        if (!nextSib) return;
+        active.style.transform = "rotateY(180deg)";
+        active.className = "page";
+        setIndex();
+        active.style.zIndex = "9998";
+        nextSib.className = "page active";
+      }
+    
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          previous();
+        } else if (e.key === 'ArrowRight') {
+          next();
+        } else if (e.key === ' ' || e.key === 'SpaceBar') {
+          // Toggle audio and image movement on spacebar press
+          playAudio();
+        }
+      });
+    </script>
+    
+  </body>
+</html>
